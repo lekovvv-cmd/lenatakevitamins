@@ -218,6 +218,12 @@
             background: #f7a3a4;
             color: white;
         }
+
+        .taken-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -434,7 +440,7 @@
                         ${med.comment ? `<div class="med-comment">📝 ${med.comment}</div>` : ''}
                         <div class="med-count">Принято раз: ${med.count || 0}</div>
                         <div class="actions">
-                            <button class="taken-btn" onclick="markAsTaken(${med.id})">Выпила!</button>
+                            <button class="taken-btn" onclick="markAsTaken(${med.id})" ${isTaken ? 'disabled' : ''}>Выпила!</button>
                             <button class="edit-btn" onclick="editMedication(${med.id})">Изменить</button>
                             <button class="delete-btn" onclick="deleteMedication(${med.id})">Удалить</button>
                         </div>
