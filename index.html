@@ -212,7 +212,6 @@
       cursor: not-allowed;
       opacity: 0.7;
     }
-    /* Стили для прогресс-бара */
     .progress-container {
       position: relative;
       width: 100%;
@@ -346,8 +345,14 @@
     let editId = null;
     const addForm = document.getElementById('addForm');
 
+    function getCurrentDay() {
+      const now = new Date();
+      now.setHours(now.getHours() - 4);
+      return now.toDateString();
+    }
+
     const lastUpdate = localStorage.getItem('lastUpdate');
-    const today = new Date().toDateString();
+    const today = getCurrentDay();
     if (lastUpdate !== today) {
       takenToday = {};
       localStorage.setItem('takenToday', JSON.stringify(takenToday));
@@ -416,7 +421,7 @@
 
     function markAsTaken(id) {
       if (!confirm('Точно выпила?')) return;
-      const todayStr = new Date().toDateString();
+      const todayStr = getCurrentDay();
       const med = medications.find(m => m.id === id);
       med.count = (med.count || 0) + 1;
       takenToday[id] = todayStr;
@@ -478,7 +483,7 @@
 
     function renderList() {
       const listEl = document.getElementById('medList');
-      const todayStr = new Date().toDateString();
+      const todayStr = getCurrentDay();
       listEl.innerHTML = medications.map(med => {
         const isTaken = takenToday[med.id] === todayStr;
         return `
@@ -551,7 +556,6 @@
         const calDiv = document.createElement('div');
         calDiv.classList.add('calendar');
         
-        // Заголовок с названием цели и кнопкой удаления
         const header = document.createElement('div');
         header.classList.add('calendar-header');
         const title = document.createElement('h3');
@@ -564,7 +568,6 @@
         header.appendChild(delBtn);
         calDiv.appendChild(header);
         
-        // Расчёт прогресса
         const startDate = new Date(cal.start);
         const endDate = new Date(cal.end);
         const currentDate = new Date();
@@ -581,7 +584,6 @@
         }
         const percent = Math.round((daysPassed / totalDays) * 100);
         
-        // Создание контейнера прогресс-бара с текстом по центру
         const progressContainer = document.createElement('div');
         progressContainer.classList.add('progress-container');
         
